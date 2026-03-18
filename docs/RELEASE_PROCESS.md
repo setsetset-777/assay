@@ -1,6 +1,10 @@
 # Release process
 
+This document serve as a roadmap on how we want to release upcoming features.
+
 ## RC 1
+
+Status: To do
 
 The first release candidate should allow a contributor to configure a form to ask its client for input and access this input.
 
@@ -26,6 +30,8 @@ The first release candidate should allow a contributor to configure a form to as
 
 ## RC 2
 
+Status: To be refined
+
 In the second release candidates, an instance of the tool should have an administration tool and allow many contributors to configure many projects for many clients. An instance must have an adminstrator contributor who has access to all instance content.
 
 ### An instance has an administration tool
@@ -47,6 +53,8 @@ In the second release candidates, an instance of the tool should have an adminis
 - A contributor can not edit the form
 
 ## RC 3
+
+Status: To be defined
 
 In the third release candidate, collaborative documents can be added to a project.
 
