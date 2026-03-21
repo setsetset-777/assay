@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --watch index.ts",
+    "dev-compose": "tsx --watch index.ts",
     "start": "tsx index.ts"
   },
   "keywords": [],

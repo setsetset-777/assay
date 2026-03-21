@@ -1,0 +1,28 @@
+services:
+  assay:
+    image: node:22-alpine
+    container_name: assay
+    working_dir: /workspace
+    environment:
+      NODE_ENV: development
+
+    command: sh -c "
+      npm i -g pnpm &&
+      pnpm install -f &&
+      pnpm dev-compose"
+
+    env_file: ".env"
+
+    volumes:
+      - ./:/workspace
+
+    ports:
+      - "${SERVER_PORT:-3000}:${SERVER_PORT:-3000}"
+      - "${VITE_PORT:-5173}:${VITE_PORT:-5173}"
+
+    networks:
+      - assay
+
+networks:
+  assay:
+    name: assay
