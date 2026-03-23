@@ -6,7 +6,7 @@
   "scripts": {
     "compose:up": "docker compose -f docker-compose.dev.yml up --build",
     "compose:down": "docker compose -f docker-compose.dev.yml down",
-    "dev-compose": "pnpm -r --parallel dev-compose"
+    "dev": "pnpm -r --parallel dev"
   },
   "keywords": [],
   "author": "",

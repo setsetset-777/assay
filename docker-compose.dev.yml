@@ -9,12 +9,15 @@ services:
     command: sh -c "
       npm i -g pnpm &&
       pnpm install -f &&
-      pnpm dev-compose"
+      pnpm dev"
 
     env_file: ".env"
 
     volumes:
       - ./:/workspace
+      - /workspave/node_modules
+      - /workspave/apps/client/node_modules
+      - /workspave/apps/server/node_modules
 
     ports:
       - "${SERVER_PORT:-3000}:${SERVER_PORT:-3000}"
