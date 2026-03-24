@@ -45,21 +45,19 @@ let data: { forms: Form[] } = {
 
 data.forms = await loadFormData();
 
-/**
- * Initialise server
- */
 const app = express();
-
-const clientDist = path.resolve(__dirname, "../client/dist");
-app.use(express.static(clientDist));
-
-app.get("*foo", (req, res) => {
-  res.sendFile(path.join(clientDist, "index.html"));
-});
 
 /**
  * API
  */
+app.get("/api/routes", (req, res) => {
+  const routes: string[] = [];
+  data.forms.forEach((form) => {
+    routes.push(form.route);
+  });
+  return res.json(routes);
+});
+
 app.get("/api/form/:id", (req, res) => {
   const form = data.forms.find((form) => form.id === req.params.id);
   if (!form) {
@@ -67,6 +65,17 @@ app.get("/api/form/:id", (req, res) => {
   } else {
     res.json(form);
   }
+});
+
+/**
+ * Initialise server
+ */
+
+const clientDist = path.resolve(__dirname, "../client/dist");
+app.use(express.static(clientDist));
+
+app.get("*foo", (req, res) => {
+  res.sendFile(path.join(clientDist, "index.html"));
 });
 
 /**

@@ -1,10 +1,11 @@
 services:
-  assay-clint:
+  client:
     image: node:22-alpine
-    container_name: client
+    container_name: assay-client
     working_dir: /workspace
     environment:
       NODE_ENV: development
+      VITE_API_URL: "http://server:${SERVER_PORT:-3000}"
 
     command: sh -c "
       npm i -g pnpm &&
@@ -24,9 +25,9 @@ services:
     networks:
       - assay
 
-  assay-server:
+  server:
     image: node:22-alpine
-    container_name: server
+    container_name: assay-server
     working_dir: /workspace
     environment:
       NODE_ENV: development
