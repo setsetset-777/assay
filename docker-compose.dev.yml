@@ -1,30 +1,58 @@
 services:
-  assay:
+  assay-clint:
     image: node:22-alpine
-    container_name: assay
+    container_name: client
     working_dir: /workspace
     environment:
       NODE_ENV: development
 
     command: sh -c "
       npm i -g pnpm &&
-      pnpm install -f &&
-      pnpm dev"
+      pnpm install &&
+      pnpm --filter client dev"
 
     env_file: ".env"
 
     volumes:
       - ./:/workspace
-      - /workspave/node_modules
-      - /workspave/apps/client/node_modules
-      - /workspave/apps/server/node_modules
+      - client_node_modules:/workspace/node_modules
+      - pnpm_store:/pnpm-store
 
     ports:
-      - "${SERVER_PORT:-3000}:${SERVER_PORT:-3000}"
       - "${VITE_PORT:-5173}:${VITE_PORT:-5173}"
 
     networks:
       - assay
+
+  assay-server:
+    image: node:22-alpine
+    container_name: server
+    working_dir: /workspace
+    environment:
+      NODE_ENV: development
+
+    command: sh -c "
+      npm i -g pnpm &&
+      pnpm install &&
+      pnpm --filter server dev"
+
+    env_file: ".env"
+
+    volumes:
+      - ./:/workspace
+      - server_node_modules:/workspace/node_modules
+      - pnpm_store:/pnpm-store
+
+    ports:
+      - "${SERVER_PORT:-3000}:${SERVER_PORT:-3000}"
+
+    networks:
+      - assay
+
+volumes:
+  client_node_modules:
+  server_node_modules:
+  pnpm_store:
 
 networks:
   assay:

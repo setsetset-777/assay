@@ -1,0 +1,6 @@
+.pnpm-store
+node_modules
+.git
+.gitignore
+*.md
+dist
