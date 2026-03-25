@@ -1,4 +1,4 @@
 form:
   id: my-client
-  title: My other client
+  title: My client
   route: my-client
