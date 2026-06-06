@@ -1,9 +1,9 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { fetchAPI } from "../api";
+import { fetchForm } from "../api";
 
 export const Route = createFileRoute("/form/$formId")({
   loader: async ({ params: { formId } }) => {
-    const res = await fetchAPI(`form/${formId}`);
+    const res = await fetchForm(formId);
     if (res.ok) {
       return await res.json();
     } else {
