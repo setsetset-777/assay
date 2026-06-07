@@ -20,9 +20,9 @@ A core feature of the app is the configuration of different forms to gather feed
 ---
 
 ## Constraints
-- Customization: Styles are not tight to existing design systems like Material.
-- Validation: Make validation easy and configurable
-- Open source: Should not depend on external cloud services. Any centralised service should be self hostable, ideally dockerized.
+1. **Customization**: Styles are not tight to existing design systems like Material.
+1. **Validation**: Make validation easy and configurable
+1. **Open source**: Should not depend on external cloud services. Any centralised service should be self hostable, ideally dockerized.
 
 ---
 
