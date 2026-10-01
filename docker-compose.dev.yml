@@ -10,7 +10,7 @@ services:
     command: sh -c "
       npm i -g pnpm &&
       pnpm install &&
-      pnpm --filter client dev --port ${VITE_PORT}"
+      pnpm --filter client dev --port ${CLIENT_PORT}"
 
     env_file: ".env"
 
@@ -20,7 +20,7 @@ services:
       - pnpm_store:/pnpm-store
 
     ports:
-      - "${VITE_PORT:-5173}:${VITE_PORT:-5173}"
+      - "${CLIENT_PORT:-5173}:${CLIENT_PORT:-5173}"
 
     networks:
       - assay

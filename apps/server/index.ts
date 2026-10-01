@@ -36,17 +36,6 @@ app.get("/api/form/:id", (req, res) => {
 });
 
 /**
- * Initialise server
- */
-
-const clientDist = path.resolve(__dirname, "../client/dist");
-app.use(express.static(clientDist));
-
-app.get("*foo", (req, res) => {
-  res.sendFile(path.join(clientDist, "index.html"));
-});
-
-/**
  * Start server
  */
 app.listen(port, () => {

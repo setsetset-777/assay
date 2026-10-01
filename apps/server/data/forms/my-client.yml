@@ -2,3 +2,14 @@ form:
   id: my-client
   title: My client
   route: my-client
+  steps:
+    - title: Intro
+      fields:
+        - name:
+            type: text
+            required: true
+            placeholder: Enter client name
+        - description:
+            type: textarea
+            required: false
+            placeholder: Enter client description
