@@ -4,7 +4,7 @@ import yaml from "yaml";
 import path from "path";
 import url from "url";
 
-const port = 3000;
+const port = process.env.SERVER_PORT ?? 3000;
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataDir = "./data/forms";
@@ -50,5 +50,5 @@ app.get("*foo", (req, res) => {
  * Start server
  */
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`API server listening on port ${port}`);
 });

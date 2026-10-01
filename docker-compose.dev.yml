@@ -5,12 +5,12 @@ services:
     working_dir: /workspace
     environment:
       NODE_ENV: development
-      VITE_API_URL: "http://server:${SERVER_PORT:-3000}"
+      API_URL: "http://server:${SERVER_PORT:-3000}"
 
     command: sh -c "
       npm i -g pnpm &&
       pnpm install &&
-      pnpm --filter client dev"
+      pnpm --filter client dev --port ${VITE_PORT}"
 
     env_file: ".env"
 
