@@ -25,10 +25,14 @@ Implement an existing library which will be the base of the application's UI and
 1. **White label UI**: UI may be styled according to clients' brands.
 
 ### Bonus
+
 The following constraints are to be considered but shouldn't be deal breakers.
+
 1. **No TailwindCSS**: My personal taste would lean towards a library not using TailwindCSS:
+
 - Heavy maintenance: Major upgrades from tailwind can be complicated and demand a high effort.
 - Limited features: Although Tailwind cover a lot of features, some are not covered and must be implemented via CSS anyway.
+
 1. **Theme**: A minmal theme is available.
 
 ---
@@ -50,11 +54,13 @@ import { TextField, Button } from '@mui/material';
 ```
 
 ✅ Pros
+
 - Enormous ecosystem and community (6.7M+ weekly npm downloads)
 - Comprehensive component catalog including advanced data grids, date pickers
 - Strong TypeScript support
 
 🛑 Cons
+
 - Heavily branded with Material Design — diverging from it requires fighting the system
 - CSS-in-JS (Emotion) adds runtime overhead
 - High vendor lock-in risk; difficult to migrate away from
@@ -76,11 +82,13 @@ import { Input, Button } from '@chakra-ui/react';
 ```
 
 ✅ Pros
+
 - Excellent accessibility out of the box (WCAG-compliant)
 - Style props API for quick inline customization
 - v3 is built on Ark UI primitives — a clean headless layer underneath
 
 🛑 Cons
+
 - The v2 → v3 rewrite was breaking; migration between major versions is costly
 - Panda CSS (v3 styling engine) is a relatively new tool with its own learning curve
 - Somewhat opinionated default aesthetics
@@ -95,23 +103,25 @@ import { Input, Button } from '@chakra-ui/react';
 A low-level, headless component library providing accessible, unstyled primitives (Dialog, Tooltip, Tabs, etc.). Bring your own styles.
 
 ```tsx
-import * as Dialog from '@radix-ui/react-dialog';
+import * as Dialog from "@radix-ui/react-dialog";
 
 <Dialog.Root>
   <Dialog.Trigger>Open</Dialog.Trigger>
   <Dialog.Portal>
     <Dialog.Content>...</Dialog.Content>
   </Dialog.Portal>
-</Dialog.Root>
+</Dialog.Root>;
 ```
 
 ✅ Pros
+
 - Fully unstyled — zero design opinions, maximum visual freedom
 - Best-in-class accessibility primitives (full ARIA + keyboard support)
 - Very low vendor lock-in; logic and style are completely decoupled
 - Small bundle footprint (40–80 KB with custom styling)
 
 🛑 Cons
+
 - No default styles at all — requires building every visual from scratch, even for prototyping
 - Higher upfront implementation effort (2–3x more styling code vs. Mantine/Chakra)
 - No built-in form management utilities
@@ -134,6 +144,7 @@ import { TextInput, Button } from '@mantine/core';
 ```
 
 ✅ Pros
+
 - Minimal default theme — functional but not strongly branded
 - CSS Modules by default — no runtime CSS-in-JS overhead, plain CSS skills transfer directly
 - **Headless mode built-in**: omitting `@mantine/*/styles.css` turns every component into an unstyled primitive; styles can be applied via the Styles API with any styling solution
@@ -144,6 +155,7 @@ import { TextInput, Button } from '@mantine/core';
 - Strong TypeScript support
 
 🛑 Cons
+
 - Larger bundle than a pure headless library (~120 KB for full imports), though tree-shakeable
 - Migration between major versions (e.g. v6 → v7) has historically required non-trivial effort due to the CSS-in-JS → CSS Modules shift
 - A full headless migration (dropping all Mantine styles) disables some layout-dependent components (`Grid`, `SimpleGrid`, etc.) and theme-based props (`color`, `radius`, `size`)
@@ -167,6 +179,7 @@ import { Button } from '@/components/ui/button';
 ```
 
 ✅ Pros
+
 - **Zero vendor lock-in**: we own every line of component code from day one — no dependency to migrate away from
 - **Total customization**: since the code lives in our repo, every internal detail (markup, styles, behavior) is freely editable
 - Clean, minimal default aesthetic — neutral and not branded
@@ -175,6 +188,7 @@ import { Button } from '@/components/ui/button';
 - Upstream improvements can be selectively pulled in via the CLI
 
 🛑 Cons
+
 - **Tailwind CSS is the styling backbone**: component files are written entirely in Tailwind utility classes; replacing Tailwind with CSS Modules would mean rewriting every component
 - **No upstream propagation**: bug fixes and improvements from shadcn are not automatically applied — the team must manually re-pull or patch components
 - Copy-paste architecture is a higher maintenance responsibility than a versioned dependency
@@ -204,6 +218,7 @@ import { Button } from '@base-ui-components/react/button';
 ```
 
 ✅ Pros
+
 - Fully unstyled — complete visual freedom with any styling solution including plain CSS Modules
 - Backed by MUI's full-time engineering team; more actively maintained than Radix UI (which slowed after its WorkOS acquisition)
 - Components expose internal state via data attributes (`data-checked`, `data-disabled`, etc.) and state-based `className`/`style` functions, making state-driven styling straightforward without extra wrappers
@@ -212,6 +227,7 @@ import { Button } from '@base-ui-components/react/button';
 - No dependency on any styling library — styling solution is entirely the team's choice
 
 🛑 Cons
+
 - No default styles at all — like Radix, requires building every visual from scratch; high upfront effort for early-stage development
 - Component catalog is still growing (25+ components), smaller than Mantine's 100+
 - No built-in form utilities — must pair with React Hook Form or similar
@@ -221,20 +237,20 @@ import { Button } from '@base-ui-components/react/button';
 
 ## Evaluation Against Criteria
 
-| Criteria                  | MUI        | Chakra UI  | Radix UI   | Mantine        | shadcn/ui      | **Base UI**    |
-|---------------------------|------------|------------|------------|----------------|----------------|----------------|
-| Minimal default theme     | ❌ Material | ⚠️ Opinionated | ✅ None    | ✅ Minimal      | ✅ Minimal      | ✅ None         |
-| Easy customization        | ❌ Fights back | ✅ Good  | ✅ Total   | ✅ Granular API | ✅ Total (owned code) | ✅ Total   |
-| Headless/migration path   | ❌ Very hard | ⚠️ Via Ark UI | ✅ Native | ✅ Built-in     | ✅ Already owned | ✅ Native      |
-| No Tailwind               | ✅          | ⚠️ Panda CSS | ✅ (BYO)   | ✅ CSS Modules  | ❌ Tailwind-native | ✅ (BYO)    |
-| Form utilities            | ⚠️ Basic    | ⚠️ Basic   | ❌ None    | ✅ @mantine/form | ❌ None (pair with RHF) | ❌ None  |
-| Accessibility             | ✅          | ✅          | ✅          | ✅              | ✅ (via Radix)  | ✅              |
-| Bundle size               | ❌ Heavy    | ⚠️ Medium  | ✅ Light   | ⚠️ Medium       | ✅ Pay-per-component | ✅ Light   |
-| TypeScript support        | ✅          | ✅          | ✅          | ✅              | ✅              | ✅              |
-| Vendor lock-in risk       | High        | Medium     | Very low   | Low            | None           | Very low        |
-| Implementation effort     | Low         | Low        | High       | Low            | Medium         | High            |
-| Maintenance effort        | Low         | Low        | Low        | Low            | Medium–High    | Low             |
-| Component catalog         | ✅ Large    | ✅ Large   | ✅ Large   | ✅ Large        | ✅ Large        | ⚠️ Growing (25+)|
+| Criteria                | MUI            | Chakra UI      | Radix UI  | Mantine          | shadcn/ui               | **Base UI**      |
+| ----------------------- | -------------- | -------------- | --------- | ---------------- | ----------------------- | ---------------- |
+| Minimal default theme   | ❌ Material    | ⚠️ Opinionated | ✅ None   | ✅ Minimal       | ✅ Minimal              | ✅ None          |
+| Easy customization      | ❌ Fights back | ✅ Good        | ✅ Total  | ✅ Granular API  | ✅ Total (owned code)   | ✅ Total         |
+| Headless/migration path | ❌ Very hard   | ⚠️ Via Ark UI  | ✅ Native | ✅ Built-in      | ✅ Already owned        | ✅ Native        |
+| No Tailwind             | ✅             | ⚠️ Panda CSS   | ✅ (BYO)  | ✅ CSS Modules   | ❌ Tailwind-native      | ✅ (BYO)         |
+| Form utilities          | ⚠️ Basic       | ⚠️ Basic       | ❌ None   | ✅ @mantine/form | ❌ None (pair with RHF) | ❌ None          |
+| Accessibility           | ✅             | ✅             | ✅        | ✅               | ✅ (via Radix)          | ✅               |
+| Bundle size             | ❌ Heavy       | ⚠️ Medium      | ✅ Light  | ⚠️ Medium        | ✅ Pay-per-component    | ✅ Light         |
+| TypeScript support      | ✅             | ✅             | ✅        | ✅               | ✅                      | ✅               |
+| Vendor lock-in risk     | High           | Medium         | Very low  | Low              | None                    | Very low         |
+| Implementation effort   | Low            | Low            | High      | Low              | Medium                  | High             |
+| Maintenance effort      | Low            | Low            | Low       | Low              | Medium–High             | Low              |
+| Component catalog       | ✅ Large       | ✅ Large       | ✅ Large  | ✅ Large         | ✅ Large                | ⚠️ Growing (25+) |
 
 ---
 
@@ -255,6 +271,7 @@ Base UI seems like the best trade off between vendor opinions and implementation
 ## Consequences
 
 ### Positive
+
 - We own our styles
 - Customisation is made easy with primitices and CSS custom properties
 - Styling tool is up to us and not imposed by library
@@ -262,12 +279,14 @@ Base UI seems like the best trade off between vendor opinions and implementation
 - State-driven styling via data attributes keeps CSS expressive without JavaScript logic leaking into style files
 
 ### Negative
+
 - Every component must be styled from scratch — higher upfront effort than a pre-styled library
 - Smaller component catalog (25+ today) means some components may need to be built from primitives or hooks directly
 - No built-in form utilities — must rely on React Hook Form (already decided in the companion forms ADR)
 - Smaller community and fewer third-party resources than Mantine or MUI
 
 ### Tradeoffs
+
 - We accept higher initial styling effort in exchange for a clean, unencumbered foundation with no future migration cost
 
 ---
@@ -281,4 +300,5 @@ Base UI seems like the best trade off between vendor opinions and implementation
 ---
 
 ## Open Questions
+
 - Shall the library be consumed through proxy components?

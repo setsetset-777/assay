@@ -1,6 +1,6 @@
 import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 
-const formRoute = getRouteApi('/form/$formId');
+const formRoute = getRouteApi("/form/$formId");
 
 export const Route = createFileRoute("/form/$formId/step/$stepId")({
   component: StepComponent,
@@ -20,5 +20,11 @@ function StepComponent() {
     return;
   }
 
-  return <div>Form: {formId}, Step: {step.title} yo</div>;
+  return (
+    <div>
+      <div>Form: {formId}</div>
+
+      <div>Step: {step.title}</div>
+    </div>
+  );
 }

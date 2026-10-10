@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compose:up": "docker compose -f docker-compose.dev.yml up --build",
-    "compose:down": "docker compose -f docker-compose.dev.yml down",
+    "compose:dev": "docker compose -f docker-compose.dev.yml",
+    "compose:up": "pnpm compose:dev up --build",
+    "compose:down": "compose:dev down",
     "dev": "pnpm -r --parallel dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.26.2"
+  "packageManager": "pnpm@12.10.1",
+  "devDependencies": {
+    "eslint": "^10.12.0",
+    "prettier": "^3.9.9"
+  }
 }
