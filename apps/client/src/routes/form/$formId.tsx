@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
-import { fetchForm } from "../../api";
+import { fetchForm } from "@/api";
 
 export const Route = createFileRoute("/form/$formId")({
   loader: async ({ params: { formId } }) => {
@@ -18,8 +18,10 @@ export const Route = createFileRoute("/form/$formId")({
 
 function PageComponent() {
   const form = Route.useLoaderData();
-  return <div>
-    <div>{form.title}</div>
-    <Outlet />
-  </div>;
+  return (
+    <div>
+      <div>{form.title}</div>
+      <Outlet />
+    </div>
+  );
 }

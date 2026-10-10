@@ -1,4 +1,5 @@
 import { createFileRoute, getRouteApi } from "@tanstack/react-router";
+import { FormSchema } from "@/schemas/form";
 
 const formRoute = getRouteApi("/form/$formId");
 
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/form/$formId/step/$stepId")({
 function StepComponent() {
   const { formId, stepId } = Route.useParams();
 
-  const form = formRoute.useLoaderData();
+  const form = FormSchema.parse(formRoute.useLoaderData());
 
   const step = form.steps[stepId - 1];
 
@@ -20,11 +21,19 @@ function StepComponent() {
     return;
   }
 
+  const { title, fields } = step;
+
   return (
     <div>
       <div>Form: {formId}</div>
 
-      <div>Step: {step.title}</div>
+      <div>Step: {title}</div>
+
+      <div className="fields">
+        {fields.map(({ name }) => (
+          <div>{name}</div>
+        ))}
+      </div>
     </div>
   );
 }

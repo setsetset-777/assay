@@ -3,13 +3,23 @@ form:
   title: My client
   route: my-client
   steps:
-    - title: Intro
+    - title: Step 1
       fields:
-        - name:
-            type: text
-            required: true
-            placeholder: Enter client name
-        - description:
-            type: textarea
-            required: false
-            placeholder: Enter client description
+        - name: name
+          type: text
+          required: true
+          placeholder: Enter client name
+        - name: description
+          type: textarea
+          required: false
+          placeholder: Enter client description
+    - title: Step 2
+      fields:
+        - name: name
+          type: text
+          required: true
+          placeholder: Enter client name
+        - name: description
+          type: textarea
+          required: false
+          placeholder: Enter client description
