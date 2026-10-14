@@ -9,10 +9,14 @@ form:
           type: text
           required: true
           placeholder: Enter client name
+          description: Lorem Ipsum
+          label: Name
         - name: description
+          label: Description
           type: textarea
           required: false
           placeholder: Enter client description
+          description: This some text
     - title: Step 2
       fields:
         - name: name

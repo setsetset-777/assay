@@ -235,36 +235,93 @@ import { Button } from '@base-ui-components/react/button';
 
 ---
 
+### Option 7: React Aria Components
+
+**Repository:** https://github.com/adobe/react-spectrum (monorepo, package `react-aria-components`)
+**Documentation:** https://react-aria.adobe.com/
+
+An unstyled React component library from Adobe, built on top of the `react-aria` and `react-stately` hooks. It ships behaviour, accessibility, internationalization and form validation with no default styles. Components expose a default class name (`react-aria-ComponentName`) and their state through data attributes (`data-focused`, `data-invalid`, `data-pressed`, etc.), as well as `className` functions, so any styling solution works, including plain CSS and CSS Modules.
+
+```tsx
+import {
+  Form,
+  TextField,
+  Label,
+  Input,
+  FieldError,
+  Button,
+} from "react-aria-components";
+
+<Form>
+  <TextField name="firstName" isRequired>
+    <Label>First Name</Label>
+    <Input className={styles.input} placeholder="Enter first name" />
+    <FieldError />
+  </TextField>
+  <Button type="submit" className={styles.button}>
+    Submit
+  </Button>
+</Form>;
+```
+
+✅ Pros
+
+- Fully unstyled — complete visual freedom with plain CSS Modules; state-driven styling via data attributes
+- Largest unstyled catalog of the options considered (50+ components), including DateField, DatePicker, DateRangePicker, Calendar, TimeField, NumberField, ComboBox and TagGroup — the components that are costly to build from primitives
+- Strong accessibility, keyboard and touch/mouse/screen-reader behaviour; internationalization built in (many locales and calendar systems, RTL, locale-aware number and date parsing)
+- Built-in form validation (native or ARIA mode, custom `validate`, server errors) that can sit alongside React Hook Form
+- Layered architecture: components are built on `react-aria` / `react-stately` hooks, which gives a lower-level path for a fully custom headless design system later
+- Optional starting points for styling: vanilla CSS starter kits and copy-paste examples, which can be installed via the shadcn CLI (`@react-aria/css` registry) without Tailwind
+- No dependency on any styling library
+- Backed by Adobe, with a large, actively used codebase
+
+🛑 Cons
+
+- No default styles — the official example theme is a usable baseline for prototyping but is recognizably "Adobe" and would need restyling before client-facing use
+- Has its own conventions (slots and context between child components, collection components such as Select/ComboBox/ListBox, render-prop `className`) — steeper learning curve than thin DOM wrappers like Base UI
+- Coupling is higher than Base UI's thin DOM wrappers; the hooks layer is the escape hatch
+- No form state management — must pair with React Hook Form or similar; integration needs care (`validationBehavior="aria"`, `inputRef` instead of `ref`, non-string values such as `DateValue` and numbers in the schema)
+- Date/time components depend on `@internationalized/date`, which adds to the bundle where used
+- Starter kits and examples are copied code: no upstream propagation of fixes into our copies
+
+---
+
 ## Evaluation Against Criteria
 
-| Criteria                | MUI            | Chakra UI      | Radix UI  | Mantine          | shadcn/ui               | **Base UI**      |
-| ----------------------- | -------------- | -------------- | --------- | ---------------- | ----------------------- | ---------------- |
-| Minimal default theme   | ❌ Material    | ⚠️ Opinionated | ✅ None   | ✅ Minimal       | ✅ Minimal              | ✅ None          |
-| Easy customization      | ❌ Fights back | ✅ Good        | ✅ Total  | ✅ Granular API  | ✅ Total (owned code)   | ✅ Total         |
-| Headless/migration path | ❌ Very hard   | ⚠️ Via Ark UI  | ✅ Native | ✅ Built-in      | ✅ Already owned        | ✅ Native        |
-| No Tailwind             | ✅             | ⚠️ Panda CSS   | ✅ (BYO)  | ✅ CSS Modules   | ❌ Tailwind-native      | ✅ (BYO)         |
-| Form utilities          | ⚠️ Basic       | ⚠️ Basic       | ❌ None   | ✅ @mantine/form | ❌ None (pair with RHF) | ❌ None          |
-| Accessibility           | ✅             | ✅             | ✅        | ✅               | ✅ (via Radix)          | ✅               |
-| Bundle size             | ❌ Heavy       | ⚠️ Medium      | ✅ Light  | ⚠️ Medium        | ✅ Pay-per-component    | ✅ Light         |
-| TypeScript support      | ✅             | ✅             | ✅        | ✅               | ✅                      | ✅               |
-| Vendor lock-in risk     | High           | Medium         | Very low  | Low              | None                    | Very low         |
-| Implementation effort   | Low            | Low            | High      | Low              | Medium                  | High             |
-| Maintenance effort      | Low            | Low            | Low       | Low              | Medium–High             | Low              |
-| Component catalog       | ✅ Large       | ✅ Large       | ✅ Large  | ✅ Large         | ✅ Large                | ⚠️ Growing (25+) |
+## Evaluation Against Criteria
+
+| Criteria                | MUI            | Chakra UI      | Radix UI  | Mantine          | shadcn/ui               | **Base UI**      | React Aria Components                       |
+| ----------------------- | -------------- | -------------- | --------- | ---------------- | ----------------------- | ---------------- | ------------------------------------------- |
+| Minimal default theme   | ❌ Material    | ⚠️ Opinionated | ✅ None   | ✅ Minimal       | ✅ Minimal              | ✅ None          | ✅ None                                     |
+| Easy customization      | ❌ Fights back | ✅ Good        | ✅ Total  | ✅ Granular API  | ✅ Total (owned code)   | ✅ Total         | ✅ Total                                    |
+| Headless/migration path | ❌ Very hard   | ⚠️ Via Ark UI  | ✅ Native | ✅ Built-in      | ✅ Already owned        | ✅ Native        | ✅ Native (hooks layer)                     |
+| No Tailwind             | ✅             | ⚠️ Panda CSS   | ✅ (BYO)  | ✅ CSS Modules   | ❌ Tailwind-native      | ✅ (BYO)         | ✅ (BYO, vanilla CSS starter)               |
+| Form utilities          | ⚠️ Basic       | ⚠️ Basic       | ❌ None   | ✅ @mantine/form | ❌ None (pair with RHF) | ❌ None          | ⚠️ Validation built in, no form state (RHF) |
+| Accessibility           | ✅             | ✅             | ✅        | ✅               | ✅ (via Radix)          | ✅               | ✅                                          |
+| Bundle size             | ❌ Heavy       | ⚠️ Medium      | ✅ Light  | ⚠️ Medium        | ✅ Pay-per-component    | ✅ Light         | ⚠️ Medium (date components add weight)      |
+| TypeScript support      | ✅             | ✅             | ✅        | ✅               | ✅                      | ✅               | ✅                                          |
+| Vendor lock-in risk     | High           | Medium         | Very low  | Low              | None                    | Very low         | Low                                         |
+| Implementation effort   | Low            | Low            | High      | Low              | Medium                  | High             | Medium (starter kits help)                  |
+| Maintenance effort      | Low            | Low            | Low       | Low              | Medium–High             | Low              | Low                                         |
+| Component catalog       | ✅ Large       | ✅ Large       | ✅ Large  | ✅ Large         | ✅ Large                | ⚠️ Growing (25+) | ✅ Large (50+)                              |
 
 ---
 
 ## Decision
 
-**Use BaseUi**
+**Use React Aria Components, consumed through our own proxy components**
 
-Base UI seems like the best trade off between vendor opinions and implementation speed. Although we need to style from scratch (which may be a win in the long term), we'll own our theme and the styling tool. The primitives approach is the solution to our biggest pain of developping components from scratch.
+React Aria Components (RAC) gives the best trade-off between vendor opinions and implementation speed for an application dominated by form inputs. It is fully unstyled, so we own our theme and our styling tool (plain CSS / CSS Modules). Unlike Base UI, it already covers the inputs that are the most expensive to build from primitives (DateField, DatePicker, DateRangePicker, TimeField, NumberField, ComboBox, TagGroup), with built-in internationalization and form validation. Its layered architecture (`react-aria` / `react-stately` hooks under the components) provides the migration path to a fully custom headless design system.
 
-**Mantime** is a strong contender, but the dependency on the tool may to high with time.
+All RAC components are wrapped in our own proxy components (`TextField`, `Select`, `DateField`, ...). Application code never imports from `react-aria-components` directly. This centralizes white-label styling and React Hook Form integration, and makes a later library swap a change in one place.
 
-**shadcn/ui** dependency to tailwind is a huge deception, although we can take inspiration for the styling.
+**Base UI** is the runner-up. It is lighter and closer to the DOM, but its catalog is smaller (25+ components) and, at the time of writing, it lacks date and time inputs. It remains the fallback if the date picker spike shows RAC is a poor fit.
 
-**Radix** has simialar pros as Base UI but maintenance seems to be lower now.
+**Mantine** is a strong contender, but the dependency on the tool may become too high over time.
+
+**shadcn/ui**: its dependency on Tailwind is a major disappointment, although we can take inspiration for the styling.
+
+**Radix** has similar pros to Base UI, but maintenance seems to have slowed down.
 
 ---
 
@@ -273,21 +330,27 @@ Base UI seems like the best trade off between vendor opinions and implementation
 ### Positive
 
 - We own our styles
-- Customisation is made easy with primitices and CSS custom properties
-- Styling tool is up to us and not imposed by library
-- Very low vendor lock-in; Base UI components are thin wrappers over standard DOM with clean accessibility semantics
+- Customization is made easy with unstyled components, data attributes and CSS custom properties
+- Styling tool is up to us and not imposed by the library
+- Date, time, number and combobox inputs are available without building them from scratch
+- Accessibility, keyboard behavior and internationalization (locales, calendars, RTL) are handled by the library
+- Low vendor lock-in; proxy components isolate the app from the library, and the hooks layer provides a path to a fully custom headless system
 - State-driven styling via data attributes keeps CSS expressive without JavaScript logic leaking into style files
+- Vanilla CSS starter kits and examples can be used as a baseline for prototyping
 
 ### Negative
 
-- Every component must be styled from scratch — higher upfront effort than a pre-styled library
-- Smaller component catalog (25+ today) means some components may need to be built from primitives or hooks directly
-- No built-in form utilities — must rely on React Hook Form (already decided in the companion forms ADR)
-- Smaller community and fewer third-party resources than Mantine or MUI
+- Every component must be styled from scratch, and the official example theme needs restyling before client-facing use
+- Steeper learning curve than thin DOM wrappers: own conventions (slots and context, collection components, render-prop `className`)
+- Higher coupling to the library's API than Base UI, mitigated by proxy components
+- No form state management: must rely on React Hook Form (already decided in the companion forms ADR). Integration needs care (`validationBehavior="aria"`, `inputRef` instead of `ref`, non-string values such as `DateValue` in the schema)
+- Date components depend on `@internationalized/date`, which adds to the bundle where used
+- Copied starter code does not receive upstream fixes automatically
+- Smaller community of third-party styled kits than MUI or Mantine
 
 ### Tradeoffs
 
-- We accept higher initial styling effort in exchange for a clean, unencumbered foundation with no future migration cost
+- We accept higher initial styling effort and a larger API surface in exchange for a complete set of accessible form inputs and a clean, unencumbered foundation with a low future migration cost
 
 ---
 
