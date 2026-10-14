@@ -3,6 +3,13 @@ import { router } from "./router";
 
 import "./App.css";
 
+// Register the router instance for type safety
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+
 function App() {
   return <RouterProvider router={router} />;
 }

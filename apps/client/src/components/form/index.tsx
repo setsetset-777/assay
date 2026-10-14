@@ -1,12 +1,45 @@
 import { type ComponentType } from "react";
 import { type Field, type FieldType, type FieldOf } from "@/schemas/form";
-import { TextField, TextArea } from "./TextField";
+import { TextField, Textarea } from "./TextField";
+import { useController, type FieldValues } from "react-hook-form";
+
+export { Form } from "./Form";
+
+const RhfTextField = (props: FieldOf<"text">) => {
+  const {
+    field: { value, onChange, onBlur, ref },
+  } = useController<FieldValues>({ name: props.name });
+  return (
+    <TextField
+      {...props}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      inputRef={ref}
+    />
+  );
+};
+
+const RhfTextarea = (props: FieldOf<"textarea">) => {
+  const {
+    field: { value, onChange, onBlur, ref },
+  } = useController<FieldValues>({ name: props.name });
+  return (
+    <Textarea
+      {...props}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      inputRef={ref}
+    />
+  );
+};
 
 const fieldComponents: Partial<{
   [T in FieldType]: ComponentType<FieldOf<T>>;
 }> = {
-  text: TextField,
-  textarea: TextArea,
+  text: RhfTextField,
+  textarea: RhfTextarea,
 };
 
 export function FieldRenderer(props: Field) {

@@ -14,6 +14,7 @@ export interface TextFieldProps<
 > extends AriaTextFieldProps {
   label?: string;
   description?: string;
+  required?: boolean;
   errorMessage?: string | ((validation: ValidationResult) => string);
   placeholder?: string;
   inputRef?: React.Ref<T>;
@@ -25,38 +26,32 @@ export function TextField({
   errorMessage,
   placeholder,
   inputRef,
+  required,
   ...props
 }: TextFieldProps) {
   return (
-    <AriaTextField {...props}>
+    <AriaTextField {...props} isRequired={required}>
       {label && <Label>{label}</Label>}
-      <AriaInput
-        ref={inputRef}
-        className="react-aria-Input inset"
-        placeholder={placeholder}
-      />
+      <AriaInput ref={inputRef} placeholder={placeholder} />
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>
   );
 }
 
-export function TextArea({
+export function Textarea({
   label,
   description,
   errorMessage,
   placeholder,
   inputRef,
+  required,
   ...props
 }: TextFieldProps<HTMLTextAreaElement>) {
   return (
-    <AriaTextField {...props}>
+    <AriaTextField {...props} isRequired={required}>
       <Label>{label}</Label>
-      <AriaTextArea
-        ref={inputRef}
-        className="react-aria-TextArea inset"
-        placeholder={placeholder}
-      />
+      <AriaTextArea ref={inputRef} placeholder={placeholder} />
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>

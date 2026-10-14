@@ -2,25 +2,6 @@ export const test = "test";
 
 import * as z from "zod";
 
-const uniqueName = <T extends { name: string }>(
-  items: T[],
-  ctx: z.RefinementCtx,
-) => {
-  const seen = new Set<string>();
-
-  items.forEach((item, index) => {
-    if (seen.has(item.name)) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Duplicate name: "${item.name}"`,
-        path: [index, "name"],
-      });
-    }
-
-    seen.add(item.name);
-  });
-};
-
 const textSchema = z.object({
   name: z.string(),
   type: z.literal("text"),
@@ -49,16 +30,38 @@ export type Field = z.infer<typeof fieldSchema>;
 export type FieldType = Field["type"];
 export type FieldOf<T extends FieldType> = Extract<Field, { type: T }>;
 
+export const stepSchema = z.object({
+  title: z.string(),
+  fields: z.array(fieldSchema),
+});
+
+export type Step = z.infer<typeof stepSchema>;
+
+export const stepsSchema = z.array(stepSchema);
+
+export type Steps = z.infer<typeof stepsSchema>;
+
 export const formSchema = z.object({
   id: z.string(),
   title: z.string(),
   route: z.string(),
-  steps: z.array(
-    z.object({
-      title: z.string(),
-      fields: z.array(fieldSchema).superRefine(uniqueName),
-    }),
-  ),
+  steps: stepsSchema.superRefine((steps, ctx) => {
+    const seen = new Set<string>();
+
+    steps.forEach(({ fields }) => {
+      fields.forEach(({ name }, index) => {
+        if (seen.has(name)) {
+          ctx.addIssue({
+            code: "custom",
+            message: `Duplicate name: "${name}"`,
+            path: [index, "name"],
+          });
+        }
+
+        seen.add(name);
+      });
+    });
+  }),
 });
 
 export type Form = z.infer<typeof formSchema>;

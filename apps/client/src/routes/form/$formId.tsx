@@ -1,5 +1,8 @@
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 import { fetchForm } from "@/api";
+import { FormProvider, useForm } from "react-hook-form";
+import { formSchema } from "@/schemas/form";
+// import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Route = createFileRoute("/form/$formId")({
   loader: async ({ params: { formId } }) => {
@@ -17,11 +20,17 @@ export const Route = createFileRoute("/form/$formId")({
 });
 
 function PageComponent() {
-  const form = Route.useLoaderData();
+  const form = formSchema.parse(Route.useLoaderData());
+
+  const methods = useForm({
+    // resolver: zodResolver()
+  });
   return (
-    <div>
-      <div>{form.title}</div>
-      <Outlet />
-    </div>
+    <FormProvider {...methods}>
+      <div>
+        <div>{form.title}</div>
+        <Outlet />
+      </div>
+    </FormProvider>
   );
 }

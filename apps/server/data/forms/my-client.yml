@@ -19,11 +19,11 @@ form:
           description: This some text
     - title: Step 2
       fields:
-        - name: name
+        - name: name2
           type: text
           required: true
           placeholder: Enter client name
-        - name: description
+        - name: description2
           type: textarea
           required: false
           placeholder: Enter client description
