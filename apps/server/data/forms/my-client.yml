@@ -21,9 +21,11 @@ form:
       fields:
         - name: name2
           type: text
-          required: true
+          label: Name 2
+          required: false
           placeholder: Enter client name
         - name: description2
+          label: Description 2
           type: textarea
-          required: false
+          required: true
           placeholder: Enter client description

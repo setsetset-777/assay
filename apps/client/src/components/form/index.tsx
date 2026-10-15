@@ -8,14 +8,17 @@ export { Form } from "./Form";
 const RhfTextField = (props: FieldOf<"text">) => {
   const {
     field: { value, onChange, onBlur, ref },
+    fieldState: { invalid, error },
   } = useController<FieldValues>({ name: props.name });
   return (
     <TextField
       {...props}
-      value={value}
+      value={value ?? ""}
       onChange={onChange}
       onBlur={onBlur}
       inputRef={ref}
+      isInvalid={invalid}
+      errorMessage={error?.message}
     />
   );
 };
@@ -23,14 +26,17 @@ const RhfTextField = (props: FieldOf<"text">) => {
 const RhfTextarea = (props: FieldOf<"textarea">) => {
   const {
     field: { value, onChange, onBlur, ref },
+    fieldState: { invalid, error },
   } = useController<FieldValues>({ name: props.name });
   return (
     <Textarea
       {...props}
-      value={value}
+      value={value ?? ""}
       onChange={onChange}
       onBlur={onBlur}
       inputRef={ref}
+      isInvalid={invalid}
+      errorMessage={error?.message}
     />
   );
 };

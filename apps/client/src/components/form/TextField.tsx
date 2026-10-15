@@ -32,7 +32,11 @@ export function TextField({
   return (
     <AriaTextField {...props} isRequired={required}>
       {label && <Label>{label}</Label>}
-      <AriaInput ref={inputRef} placeholder={placeholder} />
+      <AriaInput
+        ref={inputRef}
+        className="react-aria-Input inset"
+        placeholder={placeholder}
+      />
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>
@@ -51,7 +55,11 @@ export function Textarea({
   return (
     <AriaTextField {...props} isRequired={required}>
       <Label>{label}</Label>
-      <AriaTextArea ref={inputRef} placeholder={placeholder} />
+      <AriaTextArea
+        ref={inputRef}
+        className="react-aria-TextArea inset"
+        placeholder={placeholder}
+      />
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>

@@ -1,8 +1,8 @@
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
-import { type Form as FormType } from "@/schemas/form";
+import { type FormValues, type Form as FormType } from "@/schemas/form";
 import { FieldRenderer, Form } from "@/components/form";
 import { Button } from "@/components/Button";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, type SubmitHandler } from "react-hook-form";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/form/$formId/step/$stepId")({
@@ -31,7 +31,7 @@ function StepComponent() {
 
   const navigate = useNavigate();
 
-  const { trigger } = useFormContext();
+  const { trigger, handleSubmit } = useFormContext<FormValues>();
 
   const names = step.fields.map(({ name }) => name);
 
@@ -39,8 +39,11 @@ function StepComponent() {
 
   useEffect(() => {
     setNextStepIndex(stepIndex < steps.length ? stepIndex + 1 : null);
-    setPrevStepIndex(stepIndex > 0 ? stepIndex - 1 : null);
+    setPrevStepIndex(stepIndex > 1 ? stepIndex - 1 : null);
   }, [stepIndex]);
+
+  const isLast = nextStepIndex === null;
+  const isFirst = prevStepIndex === null;
 
   const goTo = (n: number) => {
     console.log("goto", n);
@@ -50,19 +53,29 @@ function StepComponent() {
     });
   };
 
+  const onNext = async () => {
+    if (isLast) return;
+    console.log("onNext", names);
+    const valid = await trigger(names);
+    console.log(valid);
+    if (valid) {
+      goTo(nextStepIndex);
+    }
+  };
+
+  const onSave: SubmitHandler<FormValues> = async (data) => {
+    if (!isLast) return;
+    // TODO persist data on storage
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("onSubmit", isLast);
+    return isLast ? handleSubmit(onSave)(e) : onNext();
+  };
+
   return (
-    <Form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        const valid = await trigger(names);
-        if (!valid) {
-          return;
-        }
-        if (nextStepIndex !== null) {
-          goTo(nextStepIndex);
-        }
-      }}
-    >
+    <Form onSubmit={onSubmit}>
       <div>Form: {formId}</div>
 
       <div>Step: {title}</div>
@@ -72,7 +85,7 @@ function StepComponent() {
           <FieldRenderer key={props.name} {...props} />
         ))}
       </div>
-      {prevStepIndex !== null && (
+      {!isFirst && (
         <Button type="button" onClick={() => goTo(prevStepIndex)}>
           Previous
         </Button>

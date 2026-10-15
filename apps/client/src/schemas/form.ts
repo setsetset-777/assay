@@ -2,32 +2,53 @@ export const test = "test";
 
 import * as z from "zod";
 
+const errors = {
+  required: "Required",
+};
+
+const textType = "text";
+const textValueSchema = z.string(errors.required).min(2);
+
 const textSchema = z.object({
   name: z.string(),
-  type: z.literal("text"),
+  type: z.literal(textType),
   label: z.string().optional(),
   required: z.boolean().optional(),
   placeholder: z.string().optional(),
   description: z.string().optional(),
+  defaultValue: z.string().optional(),
 });
 
 export type Text = z.infer<typeof textSchema>;
 
+const textareaType = "textarea";
+const textareaValueSchema = z.string(errors.required).optional();
+
 const textareaSchema = z.object({
   name: z.string(),
-  type: z.literal("textarea"),
+  type: z.literal(textareaType),
   label: z.string().optional(),
   required: z.boolean().optional(),
   placeholder: z.string().optional(),
   description: z.string().optional(),
+  defaultValue: z.string().optional(),
 });
 
 export type Textarea = z.infer<typeof textareaSchema>;
 
-const fieldSchema = z.discriminatedUnion("type", [textSchema, textareaSchema]);
+export const fieldValueSchemas = {
+  text: textValueSchema,
+  textarea: textareaValueSchema,
+} satisfies Record<FieldType, z.ZodType>;
+
+export const fieldSchema = z.discriminatedUnion("type", [
+  textSchema,
+  textareaSchema,
+]);
 
 export type Field = z.infer<typeof fieldSchema>;
 export type FieldType = Field["type"];
+export type FieldNames = Field["name"];
 export type FieldOf<T extends FieldType> = Extract<Field, { type: T }>;
 
 export const stepSchema = z.object({
@@ -65,3 +86,20 @@ export const formSchema = z.object({
 });
 
 export type Form = z.infer<typeof formSchema>;
+
+export type FieldValue = z.infer<(typeof fieldValueSchemas)[FieldType]>;
+export type FormValues = Record<FieldNames, FieldValue | undefined>;
+
+export const buildValuesSchema = (form: Form) => {
+  const shape: Partial<Record<FieldNames, z.ZodType>> = {};
+
+  for (const step of form.steps) {
+    for (const { name, type } of step.fields) {
+      shape[name] = fieldValueSchemas[type];
+    }
+  }
+
+  console.log(shape);
+
+  return z.object(shape);
+};

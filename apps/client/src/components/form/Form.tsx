@@ -12,7 +12,7 @@ import { Text, type TextProps } from "react-aria-components/Text";
 // import "./Form.css";
 
 export function Form(props: FormProps) {
-  return <RACForm {...props} />;
+  return <RACForm validationBehavior="aria" {...props} />;
 }
 
 export function Label(props: LabelProps) {

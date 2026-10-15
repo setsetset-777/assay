@@ -1,8 +1,9 @@
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 import { fetchForm } from "@/api";
 import { FormProvider, useForm } from "react-hook-form";
-import { formSchema } from "@/schemas/form";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { formSchema, buildValuesSchema, type FormValues } from "@/schemas/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
 
 export const Route = createFileRoute("/form/$formId")({
   loader: async ({ params: { formId } }) => {
@@ -22,8 +23,10 @@ export const Route = createFileRoute("/form/$formId")({
 function PageComponent() {
   const form = formSchema.parse(Route.useLoaderData());
 
+  const schema = useMemo(() => buildValuesSchema(form), [form]);
+
   const methods = useForm({
-    // resolver: zodResolver()
+    resolver: zodResolver(schema),
   });
   return (
     <FormProvider {...methods}>
