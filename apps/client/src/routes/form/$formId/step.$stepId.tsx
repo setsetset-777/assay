@@ -2,7 +2,11 @@ import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { type FormValues, type Form as FormType } from "@/schemas/form";
 import { FieldRenderer, Form } from "@/components/form";
 import { Button } from "@/components/Button";
-import { useFormContext, type SubmitHandler } from "react-hook-form";
+import {
+  useFormContext,
+  type SubmitErrorHandler,
+  type SubmitHandler,
+} from "react-hook-form";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/form/$formId/step/$stepId")({
@@ -46,7 +50,6 @@ function StepComponent() {
   const isFirst = prevStepIndex === null;
 
   const goTo = (n: number) => {
-    console.log("goto", n);
     navigate({
       to: "/form/$formId/step/$stepId",
       params: { formId, stepId: `${n}` },
@@ -55,9 +58,7 @@ function StepComponent() {
 
   const onNext = async () => {
     if (isLast) return;
-    console.log("onNext", names);
     const valid = await trigger(names);
-    console.log(valid);
     if (valid) {
       goTo(nextStepIndex);
     }
@@ -68,10 +69,17 @@ function StepComponent() {
     // TODO persist data on storage
   };
 
+  const onInvalid: SubmitErrorHandler<FormValues> = (errors) => {
+    console.log("onInvalid", errors);
+    const firstError = steps.findIndex(({ fields }) =>
+      fields.some(({ name }) => name in errors),
+    );
+    if (firstError >= 0 && firstError < stepIndex - 1) goTo(firstError + 1);
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("onSubmit", isLast);
-    return isLast ? handleSubmit(onSave)(e) : onNext();
+    return isLast ? handleSubmit(onSave, onInvalid)(e) : onNext();
   };
 
   return (

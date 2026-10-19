@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 import { fetchForm } from "@/api";
 import { FormProvider, useForm } from "react-hook-form";
-import { formSchema, buildValuesSchema, type FormValues } from "@/schemas/form";
+import { formSchema, buildValuesSchema } from "@/schemas/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 

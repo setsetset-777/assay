@@ -99,7 +99,5 @@ export const buildValuesSchema = (form: Form) => {
     }
   }
 
-  console.log(shape);
-
   return z.object(shape);
 };
