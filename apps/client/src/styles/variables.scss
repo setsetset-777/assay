@@ -1,7 +1,7 @@
-@forward "utilities";
+@use "utilities" as *;
 
 :root {
-  /* === Base Palette === */
+  /* === Base Colors === */
 
   /* red */
   --color-red-100: #fff8f8;
@@ -33,16 +33,50 @@
   --color-accent-300: var(--color-gray-700);
   --color-accent-500: var(--color-gray-900);
 
-  /* === Semantic Tokens === */
+  /* === Font Tokens === */
+
+  /* font family */
+  --font-family-sans: "DM Sans", sans-serif;
+
+  /* font size */
+  --font-size-s: #{pxToRem(14)};
+  --font-size-m: #{pxToRem(16)};
+  --font-size-l: #{pxToRem(20)};
+  --font-size-xl: #{pxToRem(32)};
+
+  /* font weight */
+  --font-weight-bold: 700;
+  --font-weight-regular: 400;
+  --font-weight-semi: 500;
+
+  /* line height */
+  --font-height-m: 1.3;
+
+  /* === Spacing Tokens === */
+
+  --space-2: #{pxToRem(2)};
+  --space-4: #{pxToRem(4)};
+  --space-6: #{pxToRem(6)};
+  --space-8: #{pxToRem(8)};
+  --space-12: #{pxToRem(12)};
+  --space-16: #{pxToRem(16)};
+  --space-20: #{pxToRem(20)};
+  --space-24: #{pxToRem(24)};
+  --space-32: #{pxToRem(32)};
+  --space-48: #{pxToRem(48)};
+  --space-120: #{pxToRem(120)};
+
+  /* === Semantic Colors === */
 
   --color-focus: var(--color-blue-500);
   --color-font-main: var(--color-gray-1000);
   --color-font-light: var(--color-gray-00);
-  --color-font-dimmed: var(--color-gray-500);
+  --color-font-dimmed: var(--color-gray-600);
   --color-font-placeholder: var(--color-gray-300);
   --color-font-critical: var(--color-red-500);
-  --color-font-accent: var(--color-accent-300);
-  --color-font-accent-dimmed: var(--color-accent-500);
+
+  --color-font-accent: var(--color-accent-500);
+  --color-font-accent-dimmed: var(--color-accent-300);
 
   --color-surface-light: var(--color-gray-00);
   --color-surface-view: var(--color-gray-100);
@@ -55,32 +89,10 @@
   --color-border-critical: var(--color-red-300);
   --color-border-focus: var(--color-blue-300);
 
-  /* === Font Tokens === */
+  /* === Semantic variables === */
 
-  /* font family */
-  --font-family-sans: "DM Sans", sans-serif;
-
-  /* font size (px) */
-  --font-size-s: pxToRem(14);
-  --font-size-sm: pxToRem(16);
-  --font-size-lg: pxToRem(20);
-  --font-size-xl: pxToRem(32);
-
-  /* font weight */
-  --font-weight-bold: "Bold";
-  --font-weight-regular: "Regular";
-  --font-weight-semi: "Semi Bold";
-
-  /* === Spacing Tokens === */
-
-  --spacing-2: pxToRem(2);
-  --spacing-4: pxToRem(4);
-  --spacing-6: pxToRem(6);
-  --spacing-8: pxToRem(8);
-  --spacing-12: pxToRem(12);
-  --spacing-16: pxToRem(16);
-  --spacing-20: pxToRem(20);
-  --spacing-24: pxToRem(24);
-  --spacing-32: pxToRem(32);
-  --spacing-48: pxToRem(48);
+  --layout-max-width: #{pxToRem(1200)};
+  --layout-padding-top: var(--space-120);
+  --layout-gap: var(--space-24);
+  --footer-padding-bottom: var(--space-24);
 }

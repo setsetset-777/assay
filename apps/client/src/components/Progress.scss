@@ -1,0 +1,29 @@
+@use "@/styles/utilities" as *;
+
+.progress {
+  display: flex;
+  flex-direction: row;
+  gap: pxToRem(1px);
+  height: pxToRem(4px);
+  max-width: pxToRem(320px);
+
+  &__step {
+    height: 100%;
+    flex-grow: 1;
+    cursor: pointer;
+    background-color: var(--color-surface-light);
+
+    &--active {
+      background-color: var(--color-surface-accent);
+    }
+  }
+
+  &__link {
+    &:before {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

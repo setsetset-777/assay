@@ -1,7 +1,6 @@
 form:
   id: my-other-client
   title: My Other Client
-  route: my-other-client
   steps:
     fields:
       - name:

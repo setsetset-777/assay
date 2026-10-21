@@ -66,6 +66,8 @@ export const formSchema = z.object({
   id: z.string(),
   title: z.string(),
   route: z.string(),
+  editor: z.string().optional(),
+  time: z.string().optional(),
   steps: stepsSchema.superRefine((steps, ctx) => {
     const seen = new Set<string>();
 

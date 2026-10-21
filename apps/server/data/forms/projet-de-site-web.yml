@@ -1,9 +1,10 @@
 form:
-  id: my-client
-  title: My client
-  route: my-client
+  id: projet-de-site-web
+  title: Votre projet de site web
+  editor: setetset
+  time: 15 min
   steps:
-    - title: Step 1
+    - title: Étude de vos besoins
       fields:
         - name: name
           type: text

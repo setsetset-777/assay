@@ -1,0 +1,40 @@
+@forward "./utilities";
+@forward "./variables";
+@forward "./reset";
+
+:root {
+  /*color-scheme: light dark;*/
+  color-scheme: light;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  isolation: isolate;
+}
+
+/*@media (prefers-color-scheme: dark) {
+  :root {
+  }
+}*/
+
+html,
+body {
+  background-color: var(--color-surface-view);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-m);
+  line-height: var(--font-height-m);
+  color: var(--color-font-main);
+  height: 100dvh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  // Force inherit of min-height for children
+  height: 1px;
+}
