@@ -1,0 +1,86 @@
+@forward "utilities";
+
+:root {
+  /* === Base Palette === */
+
+  /* red */
+  --color-red-100: #fff8f8;
+  --color-red-300: #ffb2b2;
+  --color-red-500: #d40000;
+
+  /* blue */
+  --color-blue-300: #aab6ff;
+  --color-blue-500: #5e5eff;
+
+  /* gray */
+  --color-gray-00: #ffffff;
+  --color-gray-50: #f9f9f9;
+  --color-gray-100: #f5f4f2;
+  --color-gray-200: #e1e1e1;
+  --color-gray-300: #cccccc;
+  --color-gray-400: #b0b0b0;
+  --color-gray-500: #8a8a8a;
+  --color-gray-600: #606060;
+  --color-gray-700: #423e3e;
+  --color-gray-800: #2b2a2a;
+  --color-gray-900: #181818;
+  --color-gray-1000: #000000;
+
+  /* green */
+  --color-green-500: #69be63;
+
+  /* accent (resolved) */
+  --color-accent-300: var(--color-gray-700);
+  --color-accent-500: var(--color-gray-900);
+
+  /* === Semantic Tokens === */
+
+  --color-focus: var(--color-blue-500);
+  --color-font-main: var(--color-gray-1000);
+  --color-font-light: var(--color-gray-00);
+  --color-font-dimmed: var(--color-gray-500);
+  --color-font-placeholder: var(--color-gray-300);
+  --color-font-critical: var(--color-red-500);
+  --color-font-accent: var(--color-accent-300);
+  --color-font-accent-dimmed: var(--color-accent-500);
+
+  --color-surface-light: var(--color-gray-00);
+  --color-surface-view: var(--color-gray-100);
+  --color-surface-main: var(--color-gray-1000);
+  --color-surface-critical-light: var(--color-red-100);
+  --color-surface-accent: var(--color-accent-500);
+  --color-surface-success: var(--color-green-500);
+
+  --color-border-dimmed: var(--color-gray-200);
+  --color-border-critical: var(--color-red-300);
+  --color-border-focus: var(--color-blue-300);
+
+  /* === Font Tokens === */
+
+  /* font family */
+  --font-family-sans: "DM Sans", sans-serif;
+
+  /* font size (px) */
+  --font-size-s: pxToRem(14);
+  --font-size-sm: pxToRem(16);
+  --font-size-lg: pxToRem(20);
+  --font-size-xl: pxToRem(32);
+
+  /* font weight */
+  --font-weight-bold: "Bold";
+  --font-weight-regular: "Regular";
+  --font-weight-semi: "Semi Bold";
+
+  /* === Spacing Tokens === */
+
+  --spacing-2: pxToRem(2);
+  --spacing-4: pxToRem(4);
+  --spacing-6: pxToRem(6);
+  --spacing-8: pxToRem(8);
+  --spacing-12: pxToRem(12);
+  --spacing-16: pxToRem(16);
+  --spacing-20: pxToRem(20);
+  --spacing-24: pxToRem(24);
+  --spacing-32: pxToRem(32);
+  --spacing-48: pxToRem(48);
+}

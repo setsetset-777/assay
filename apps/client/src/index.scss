@@ -1,0 +1,23 @@
+@forward "./styles/utilities";
+@forward "./styles/theme";
+
+:root {
+  /*color-scheme: light dark;*/
+  color-scheme: light;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  isolation: isolate;
+}
+
+/*@media (prefers-color-scheme: dark) {
+  :root {
+  }
+}*/
+
+html {
+  background-color: var(--color-surface-view);
+}

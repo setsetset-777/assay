@@ -1,0 +1,17 @@
+@use "sass:math";
+
+$px-base: 16;
+
+/// Converts pixel values to rem based on a base font-size.
+/// @param {number} $value - The pixel value to convert.
+/// @returns {number} The value in rem.
+/// @example
+///   pxToRem(14) => 0.875rem
+///   pxToRem(16) => 1rem
+///   pxToRem(20) => 1.25rem
+@function pxToRem($value) {
+  @if math.is-unitless($value) and $value != 0 {
+    @return #{math.div($value, $px-base)}rem;
+  }
+  @return $value;
+}
