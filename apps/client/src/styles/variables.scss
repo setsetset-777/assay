@@ -14,7 +14,7 @@
 
   /* gray */
   --color-gray-00: #ffffff;
-  --color-gray-50: #f9f9f9;
+  --color-gray-50: #fdfdfd;
   --color-gray-100: #f5f4f2;
   --color-gray-200: #e1e1e1;
   --color-gray-300: #cccccc;
@@ -32,6 +32,12 @@
   /* accent (resolved) */
   --color-accent-300: var(--color-gray-700);
   --color-accent-500: var(--color-gray-900);
+
+  /* alpha */
+  --color-gray-1000-a05: #00000005;
+  --color-gray-1000-a25: #00000025;
+  --color-gray-1000-a50: #00000050;
+  --color-blue-500-a50: #5e5eff50;
 
   /* === Font Tokens === */
 
@@ -66,6 +72,25 @@
   --space-48: #{pxToRem(48)};
   --space-120: #{pxToRem(120)};
 
+  /* === Radius Tokens === */
+
+  --radius-8: #{pxToRem(8)};
+  --radius-12: #{pxToRem(12)};
+
+  /* === Easing Tokens === */
+
+  --ease-time-short: 100ms;
+  --ease-time-medium: 300ms;
+  --ease-time-long: 1000ms;
+  --ease-function: ease-in-out;
+  --ease-function-in: ease-in;
+  --ease-function-out: ease-in;
+
+  /* === Elevation styles === */
+  --elevation-00: var(--color-gray-1000-a05) 0 0 #{pxToRem(4)};
+  --elevation-50: var(--color-gray-1000-a50) 0 #{pxToRem(2)} #{pxToRem(12)};
+  --elevation-focus-50: var(--color-blue-500-a50) 0 #{pxToRem(2)} #{pxToRem(12)};
+
   /* === Semantic Colors === */
 
   --color-focus: var(--color-blue-500);
@@ -79,10 +104,12 @@
   --color-font-accent-dimmed: var(--color-accent-300);
 
   --color-surface-light: var(--color-gray-00);
+  --color-surface-light-active: var(--color-gray-50);
   --color-surface-view: var(--color-gray-100);
   --color-surface-main: var(--color-gray-1000);
   --color-surface-critical-light: var(--color-red-100);
   --color-surface-accent: var(--color-accent-500);
+  --color-surface-accent-active: var(--color-accent-300);
   --color-surface-success: var(--color-green-500);
 
   --color-border-dimmed: var(--color-gray-200);
@@ -91,8 +118,10 @@
 
   /* === Semantic variables === */
 
+  --outline-focus: 1px solid var(--color-blue-500);
   --layout-max-width: #{pxToRem(1200)};
   --layout-padding-top: var(--space-120);
   --layout-gap: var(--space-24);
+  --form-max-width: #{pxToRem(600)};
   --footer-padding-bottom: var(--space-24);
 }

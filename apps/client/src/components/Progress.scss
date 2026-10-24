@@ -1,6 +1,8 @@
 @use "@/styles/utilities" as *;
 
 .progress {
+  --surface-color: var(--color-surface-light);
+
   display: flex;
   flex-direction: row;
   gap: pxToRem(1px);
@@ -11,10 +13,18 @@
     height: 100%;
     flex-grow: 1;
     cursor: pointer;
-    background-color: var(--color-surface-light);
+    background-color: var(--surface-color);
+
+    &:hover {
+      --surface-color: var(--color-surface-light-active);
+    }
 
     &--active {
-      background-color: var(--color-surface-accent);
+      --surface-color: var(--color-surface-accent);
+
+      &:hover {
+        --surface-color: var(--color-surface-accent-active);
+      }
     }
   }
 
@@ -24,6 +34,11 @@
       display: block;
       height: 100%;
       width: 100%;
+    }
+
+    &:focus-visible,
+    &:active {
+      outline: var(--outline-focus);
     }
   }
 }

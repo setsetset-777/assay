@@ -2,6 +2,7 @@ import { type ComponentType } from "react";
 import { type Field, type FieldType, type FieldOf } from "@/schemas/form";
 import { TextField, Textarea } from "./TextField";
 import { useController, type FieldValues } from "react-hook-form";
+import { TextBlock } from "./TextBlock";
 
 export { Form } from "./Form";
 
@@ -46,6 +47,7 @@ const fieldComponents: Partial<{
 }> = {
   text: RhfTextField,
   textarea: RhfTextarea,
+  textblock: TextBlock,
 };
 
 export function FieldRenderer(props: Field) {

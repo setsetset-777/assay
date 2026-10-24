@@ -6,6 +6,17 @@ const errors = {
   required: "Required",
 };
 
+const textblockType = "textblock";
+const textblockValueSchema = undefined;
+
+const textblockSchema = z.object({
+  name: z.string(),
+  type: z.literal(textblockType),
+  value: z.string(),
+});
+
+export type textblock = z.infer<typeof textblockSchema>;
+
 const textType = "text";
 const textValueSchema = z.string(errors.required).min(2);
 
@@ -22,7 +33,7 @@ const textSchema = z.object({
 export type Text = z.infer<typeof textSchema>;
 
 const textareaType = "textarea";
-const textareaValueSchema = z.string(errors.required).optional();
+const textareaValueSchema = z.string().optional();
 
 const textareaSchema = z.object({
   name: z.string(),
@@ -37,13 +48,15 @@ const textareaSchema = z.object({
 export type Textarea = z.infer<typeof textareaSchema>;
 
 export const fieldValueSchemas = {
-  text: textValueSchema,
-  textarea: textareaValueSchema,
-} satisfies Record<FieldType, z.ZodType>;
+  [textType]: textValueSchema,
+  [textareaType]: textareaValueSchema,
+  [textblockType]: textblockValueSchema,
+} satisfies Record<FieldType, z.ZodType | undefined>;
 
 export const fieldSchema = z.discriminatedUnion("type", [
   textSchema,
   textareaSchema,
+  textblockSchema,
 ]);
 
 export type Field = z.infer<typeof fieldSchema>;
@@ -51,8 +64,12 @@ export type FieldType = Field["type"];
 export type FieldNames = Field["name"];
 export type FieldOf<T extends FieldType> = Extract<Field, { type: T }>;
 
+const i18nSchema = (keys: string[]) =>
+  z.partialRecord(z.literal(keys), z.string()).optional();
+
 export const stepSchema = z.object({
   title: z.string(),
+  i18n: i18nSchema(["previous", "next"]),
   fields: z.array(fieldSchema),
 });
 
@@ -97,7 +114,10 @@ export const buildValuesSchema = (form: Form) => {
 
   for (const step of form.steps) {
     for (const { name, type } of step.fields) {
-      shape[name] = fieldValueSchemas[type];
+      const valueSchema = fieldValueSchemas[type];
+      console.log(type, valueSchema);
+      if (!valueSchema) continue;
+      shape[name as string] = valueSchema;
     }
   }
 

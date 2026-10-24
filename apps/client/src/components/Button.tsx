@@ -2,9 +2,22 @@ import {
   Button as RACButton,
   type ButtonProps as RACButtonProps,
 } from "react-aria-components/Button";
+import clsx from "clsx";
 
-interface ButtonProps extends RACButtonProps {}
+import "./Button.scss";
 
-export function Button(props: ButtonProps) {
-  return <RACButton {...props}>{props.children}</RACButton>;
+interface ButtonProps extends RACButtonProps {
+  variant?: "primary" | "secondary";
+}
+
+export function Button({ variant, type = "button", ...props }: ButtonProps) {
+  return (
+    <RACButton
+      {...props}
+      type={type}
+      className={clsx("button", `button--${variant}`)}
+    >
+      {props.children}
+    </RACButton>
+  );
 }

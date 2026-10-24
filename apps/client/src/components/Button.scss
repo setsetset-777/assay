@@ -1,0 +1,42 @@
+@use "@/styles/utilities" as *;
+
+.button {
+  --surface-color: var(--color-accent-500);
+  --surface-color-active: var(--color-accent-300);
+  --color: var(--color-font-light);
+
+  padding: var(--space-12) var(--space-24);
+  cursor: pointer;
+  box-shadow: var(--elevation-50);
+  border-radius: var(--radius-8);
+  transition-property: background-color, box-shadow, border-color;
+  transition-timing-function: var(--ease-function-in);
+  transition-duration: var(--ease-time-short);
+  background-color: var(--surface-color);
+  color: var(--color);
+
+  &:hover {
+    --surface-color: var(--surface-color-active);
+
+    box-shadow: var(--elevation-00);
+    transition-timing-function: var(--ease-function-out);
+  }
+
+  &--secondary {
+    --surface-color: var(--color-gray-00);
+    --surface-color-active: var(--color-gray-50);
+    --color: var(--color-font-main);
+
+    &:hover {
+      --surface-color: var(--surface-color-active);
+    }
+  }
+
+  &:active,
+  &:focus-visible {
+    --surface-color: var(--surface-color-active);
+
+    box-shadow: var(--elevation-focus-50);
+    outline: var(--outline-focus);
+  }
+}
