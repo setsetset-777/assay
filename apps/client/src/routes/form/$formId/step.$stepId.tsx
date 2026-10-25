@@ -1,14 +1,19 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Step } from "@/components/Step";
+import { resolveStepIndex } from "@/lib/form/step";
 
 export const Route = createFileRoute("/form/$formId/step/$stepId")({
   loader: async ({ params, context }) => {
     const { steps } = context.form;
     const { stepId } = params;
 
-    const step = steps.find(({ id }) => id === stepId);
+    const index = resolveStepIndex({
+      isSuccess: false,
+      steps,
+      stepId,
+    });
 
-    if (!step) throw notFound();
+    if (index < 0) throw notFound();
   },
   component: StepComponent,
   notFoundComponent: () => {
