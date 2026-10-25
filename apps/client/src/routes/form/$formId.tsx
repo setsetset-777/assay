@@ -1,28 +1,28 @@
-import {
-  createFileRoute,
-  notFound,
-  Outlet,
-  useChildMatches,
-} from "@tanstack/react-router";
+import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 import { fetchForm } from "@/api";
 import { FormProvider, useForm } from "react-hook-form";
-import { formSchema, buildValuesSchema } from "@/schemas/form";
+import { formSchema, buildValuesSchema, type Form } from "@/schemas/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo } from "react";
 import { FormLayout } from "@/components/layout/FormLayout";
-import type { ProgressStep } from "@/types";
 
 export const Route = createFileRoute("/form/$formId")({
-  loader: async ({ params: { formId } }) => {
+  beforeLoad: async ({ params: { formId } }): Promise<{ form: Form }> => {
     const res = await fetchForm(formId);
-    if (res.ok) {
-      return {
-        ...(await res.json()),
-        route: formId,
-      };
-    } else {
+
+    if (!res.ok) {
       throw notFound();
     }
+
+    return {
+      form: formSchema.parse({
+        ...(await res.json()),
+        route: formId,
+      }),
+    };
+  },
+  loader: async ({ context }): Promise<Form> => {
+    return context.form;
   },
   component: PageComponent,
   notFoundComponent: () => {
@@ -31,10 +31,7 @@ export const Route = createFileRoute("/form/$formId")({
 });
 
 function PageComponent() {
-  const form = formSchema.parse(Route.useLoaderData());
-
-  const stepMatches = useChildMatches();
-  const activeStep = stepMatches[0].loaderData.stepIndex;
+  const form = Route.useLoaderData();
 
   const schema = useMemo(() => buildValuesSchema(form), [form]);
 
@@ -42,22 +39,10 @@ function PageComponent() {
     resolver: zodResolver(schema),
   });
 
-  const { route, title, editor, time } = form;
-  const steps = form.steps.map<ProgressStep>(({ title }, index) => ({
-    title,
-    href: stepMatches[0].fullPath
-      .replace("$formId", route)
-      .replace("$stepId", `${index + 1}`),
-  }));
+  const { title, editor, time } = form;
 
   return (
-    <FormLayout
-      title={title}
-      editor={editor}
-      time={time}
-      steps={steps}
-      activeStep={activeStep}
-    >
+    <FormLayout title={title} editor={editor} time={time}>
       <FormProvider {...methods}>
         <Outlet />
       </FormProvider>

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FormFormIdRouteImport } from './routes/form/$formId'
 import { Route as FormFormIdIndexRouteImport } from './routes/form/$formId/index'
+import { Route as FormFormIdStepSuccessRouteImport } from './routes/form/$formId/step.success'
 import { Route as FormFormIdStepStepIdRouteImport } from './routes/form/$formId/step.$stepId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const FormFormIdIndexRoute = FormFormIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => FormFormIdRoute,
 } as any)
+const FormFormIdStepSuccessRoute = FormFormIdStepSuccessRouteImport.update({
+  id: '/step/success',
+  path: '/step/success',
+  getParentRoute: () => FormFormIdRoute,
+} as any)
 const FormFormIdStepStepIdRoute = FormFormIdStepStepIdRouteImport.update({
   id: '/step/$stepId',
   path: '/step/$stepId',
@@ -40,11 +46,13 @@ export interface FileRoutesByFullPath {
   '/form/$formId': typeof FormFormIdRouteWithChildren
   '/form/$formId/': typeof FormFormIdIndexRoute
   '/form/$formId/step/$stepId': typeof FormFormIdStepStepIdRoute
+  '/form/$formId/step/success': typeof FormFormIdStepSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/form/$formId': typeof FormFormIdIndexRoute
   '/form/$formId/step/$stepId': typeof FormFormIdStepStepIdRoute
+  '/form/$formId/step/success': typeof FormFormIdStepSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -52,6 +60,7 @@ export interface FileRoutesById {
   '/form/$formId': typeof FormFormIdRouteWithChildren
   '/form/$formId/': typeof FormFormIdIndexRoute
   '/form/$formId/step/$stepId': typeof FormFormIdStepStepIdRoute
+  '/form/$formId/step/success': typeof FormFormIdStepSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -60,14 +69,20 @@ export interface FileRouteTypes {
     | '/form/$formId'
     | '/form/$formId/'
     | '/form/$formId/step/$stepId'
+    | '/form/$formId/step/success'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/form/$formId' | '/form/$formId/step/$stepId'
+  to:
+    | '/'
+    | '/form/$formId'
+    | '/form/$formId/step/$stepId'
+    | '/form/$formId/step/success'
   id:
     | '__root__'
     | '/'
     | '/form/$formId'
     | '/form/$formId/'
     | '/form/$formId/step/$stepId'
+    | '/form/$formId/step/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -98,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FormFormIdIndexRouteImport
       parentRoute: typeof FormFormIdRoute
     }
+    '/form/$formId/step/success': {
+      id: '/form/$formId/step/success'
+      path: '/step/success'
+      fullPath: '/form/$formId/step/success'
+      preLoaderRoute: typeof FormFormIdStepSuccessRouteImport
+      parentRoute: typeof FormFormIdRoute
+    }
     '/form/$formId/step/$stepId': {
       id: '/form/$formId/step/$stepId'
       path: '/step/$stepId'
@@ -111,11 +133,13 @@ declare module '@tanstack/react-router' {
 interface FormFormIdRouteChildren {
   FormFormIdIndexRoute: typeof FormFormIdIndexRoute
   FormFormIdStepStepIdRoute: typeof FormFormIdStepStepIdRoute
+  FormFormIdStepSuccessRoute: typeof FormFormIdStepSuccessRoute
 }
 
 const FormFormIdRouteChildren: FormFormIdRouteChildren = {
   FormFormIdIndexRoute: FormFormIdIndexRoute,
   FormFormIdStepStepIdRoute: FormFormIdStepStepIdRoute,
+  FormFormIdStepSuccessRoute: FormFormIdStepSuccessRoute,
 }
 
 const FormFormIdRouteWithChildren = FormFormIdRoute._addFileChildren(

@@ -1,19 +1,14 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { type Form as FormType } from "@/schemas/form";
 import { Step } from "@/components/Step";
 
 export const Route = createFileRoute("/form/$formId/step/$stepId")({
-  loader: async ({ params, parentMatchPromise }) => {
-    const { loaderData } = await parentMatchPromise;
-    const { formId, stepId } = params;
-    const form = loaderData as FormType;
-    const stepIndex = Number(stepId);
-    const steps = form.steps;
-    const step = steps[stepIndex - 1];
+  loader: async ({ params, context }) => {
+    const { steps } = context.form;
+    const { stepId } = params;
+
+    const step = steps.find(({ id }) => id === stepId);
 
     if (!step) throw notFound();
-
-    return { steps, step, stepIndex, formId };
   },
   component: StepComponent,
   notFoundComponent: () => {

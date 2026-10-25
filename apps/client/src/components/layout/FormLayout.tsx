@@ -1,24 +1,19 @@
 import type { PropsWithChildren } from "react";
 import "./FormLayout.scss";
-import type { ProgressSteps } from "@/types";
 import { Progress } from "@/components/Progress";
+import { useFormStep } from "@/hooks/useFormStep";
 
 interface Props extends PropsWithChildren {
   title: string;
   editor?: string;
   time?: string;
-  steps: ProgressSteps;
-  activeStep: number;
 }
 
-export function FormLayout({
-  children,
-  title,
-  editor,
-  time,
-  steps,
-  activeStep,
-}: Props) {
+export function FormLayout({ children, title, editor, time }: Props) {
+  const { steps, stepIndex } = useFormStep();
+
+  const progressSteps = steps.map(({ title, href }) => ({ title, href }));
+
   return (
     <div className="form-layout">
       <header className="form-layout__header">
@@ -30,7 +25,7 @@ export function FormLayout({
             </p>
           )}
         </div>
-        <Progress steps={steps} active={activeStep} />
+        <Progress steps={progressSteps} active={stepIndex} />
         {time && <p className="form-layout__time">{time}</p>}
       </header>
       <main className="form-layout__main">{children}</main>

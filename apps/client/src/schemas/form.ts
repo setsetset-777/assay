@@ -70,6 +70,7 @@ const i18nSchema = (keys: string[]) =>
 export const stepSchema = z.object({
   title: z.string(),
   i18n: i18nSchema(["previous", "next"]),
+  id: z.string().optional(),
   fields: z.array(fieldSchema),
 });
 
@@ -79,30 +80,57 @@ export const stepsSchema = z.array(stepSchema);
 
 export type Steps = z.infer<typeof stepsSchema>;
 
-export const formSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  route: z.string(),
-  editor: z.string().optional(),
-  time: z.string().optional(),
-  steps: stepsSchema.superRefine((steps, ctx) => {
-    const seen = new Set<string>();
+export const formSchema = z
+  .object({
+    id: z.string(),
+    title: z.string(),
+    route: z.string(),
+    editor: z.string().optional(),
+    time: z.string().optional(),
+    steps: stepsSchema.superRefine((steps, ctx) => {
+      const seenFieldName = new Set<string>();
+      const seenStepId = new Set<string>();
 
-    steps.forEach(({ fields }) => {
-      fields.forEach(({ name }, index) => {
-        if (seen.has(name)) {
-          ctx.addIssue({
-            code: "custom",
-            message: `Duplicate name: "${name}"`,
-            path: [index, "name"],
-          });
+      steps.forEach(({ fields, id }, index) => {
+        if (id) {
+          if (seenStepId.has(id)) {
+            ctx.addIssue({
+              code: "custom",
+              message: `Duplicate step id: "${id}"`,
+              path: [index, "name"],
+            });
+          }
+
+          seenStepId.add(id);
         }
 
-        seen.add(name);
+        fields.forEach(({ name }, index) => {
+          if (seenFieldName.has(name)) {
+            ctx.addIssue({
+              code: "custom",
+              message: `Duplicate name: "${name}"`,
+              path: [index, "name"],
+            });
+          }
+
+          seenFieldName.add(name);
+        });
       });
-    });
-  }),
-});
+    }),
+  })
+  .transform((form) => {
+    return {
+      ...form,
+      steps: form.steps.map((step, index) => {
+        const stepId = step.id ?? String(index + 1);
+        return {
+          ...step,
+          id: stepId,
+          href: `/form/${form.route}/step/${stepId}`,
+        };
+      }),
+    };
+  });
 
 export type Form = z.infer<typeof formSchema>;
 
@@ -115,7 +143,7 @@ export const buildValuesSchema = (form: Form) => {
   for (const step of form.steps) {
     for (const { name, type } of step.fields) {
       const valueSchema = fieldValueSchemas[type];
-      console.log(type, valueSchema);
+
       if (!valueSchema) continue;
       shape[name as string] = valueSchema;
     }

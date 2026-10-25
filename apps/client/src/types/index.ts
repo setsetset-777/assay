@@ -4,3 +4,5 @@ export interface ProgressStep {
 }
 
 export type ProgressSteps = Array<ProgressStep>;
+
+export const successStepId = "success";

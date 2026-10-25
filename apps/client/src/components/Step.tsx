@@ -7,15 +7,21 @@ import {
   type SubmitErrorHandler,
   type SubmitHandler,
 } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { Route } from "@/routes/form/$formId/step.$stepId";
 
 import "./Step.scss";
+import { useFormStep } from "@/hooks/useFormStep";
 
 export function Step() {
-  const { steps, step, stepIndex, formId } = Route.useLoaderData();
-  const [nextStepIndex, setNextStepIndex] = useState<number | null>(null);
-  const [prevStepIndex, setPrevStepIndex] = useState<number | null>(null);
+  const {
+    steps,
+    step,
+    stepIndex,
+    formId,
+    nextStepId,
+    previousStepId,
+    isLast,
+    isFirst,
+  } = useFormStep();
 
   const navigate = useNavigate();
 
@@ -25,15 +31,8 @@ export function Step() {
 
   const { title, i18n: setpI18n, fields } = step;
 
-  useEffect(() => {
-    setNextStepIndex(stepIndex < steps.length ? stepIndex + 1 : null);
-    setPrevStepIndex(stepIndex > 1 ? stepIndex - 1 : null);
-  }, [stepIndex]);
-
-  const isLast = nextStepIndex === null;
-  const isFirst = prevStepIndex === null;
-
-  const goTo = (n: number) => {
+  const goTo = (n: number | string) => {
+    console.log("goTo", n);
     navigate({
       to: "/form/$formId/step/$stepId",
       params: { formId, stepId: `${n}` },
@@ -44,21 +43,29 @@ export function Step() {
     if (isLast) return;
     const valid = await trigger(names);
     if (valid) {
-      goTo(nextStepIndex);
+      goTo(nextStepId);
     }
   };
 
   const onSave: SubmitHandler<FormValues> = async (data) => {
-    if (!isLast) return;
     // TODO persist data on storage
+    if (!isLast) return;
+    // Success
+    goTo("success");
   };
 
   const onInvalid: SubmitErrorHandler<FormValues> = (errors) => {
-    console.log("onInvalid", errors);
-    const firstError = steps.findIndex(({ fields }) =>
+    const errorIndex = steps.findIndex(({ fields }) =>
       fields.some(({ name }) => name in errors),
     );
-    if (firstError >= 0 && firstError < stepIndex - 1) goTo(firstError + 1);
+    if (
+      errorIndex >= 0 &&
+      errorIndex < stepIndex &&
+      steps[errorIndex] &&
+      steps[errorIndex].id
+    ) {
+      goTo(steps[errorIndex].id);
+    }
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,7 +88,7 @@ export function Step() {
               className="step__button"
               type="button"
               variant="secondary"
-              onClick={() => goTo(prevStepIndex)}
+              onClick={() => goTo(previousStepId)}
             >
               {setpI18n?.previous ?? "Précédent"}
             </Button>
@@ -89,7 +96,7 @@ export function Step() {
         </div>
         <div>
           <Button className="step__button" type="submit" variant="primary">
-            {setpI18n?.next ?? "Suivant"}
+            {setpI18n?.next ?? (isLast ? "Envoyer" : "Suivant")}
           </Button>
         </div>
       </div>
