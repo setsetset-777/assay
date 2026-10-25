@@ -1,5 +1,6 @@
 import "./Progress.scss";
 import type { ProgressStep } from "@/types";
+import { Link } from "@tanstack/react-router";
 import clsx from "clsx";
 
 interface Props {
@@ -17,7 +18,7 @@ export function Progress({ steps, active }: Props) {
           })}
           key={index}
         >
-          <a className="progress__link" href={href} title={title} />
+          <Link className="progress__link" to={href} title={title} />
         </li>
       ))}
     </ul>
