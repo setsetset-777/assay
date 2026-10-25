@@ -14,6 +14,7 @@
   transition-duration: var(--ease-time-short);
   background-color: var(--surface-color);
   color: var(--color);
+  font-weight: var(--font-weight-medium);
 
   &:hover {
     --surface-color: var(--surface-color-active);

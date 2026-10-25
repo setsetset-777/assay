@@ -32,7 +32,7 @@ form:
           type: textarea
           required: false
           placeholder: Enter client description
-          description: This some text
+          description: This is some text
     - title: Step 2
       fields:
         - name: name2

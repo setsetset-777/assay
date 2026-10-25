@@ -6,7 +6,7 @@ import {
   type ValidationResult,
 } from "react-aria-components/TextField";
 import { Label, FieldError, Description } from "./Form";
-import "./TextField.css";
+import "./TextField.scss";
 import type React from "react";
 
 export interface TextFieldProps<
@@ -30,14 +30,18 @@ export function TextField({
   ...props
 }: TextFieldProps) {
   return (
-    <AriaTextField {...props} isRequired={required}>
+    <AriaTextField
+      {...props}
+      isRequired={required}
+      className="field field--text"
+    >
       {label && <Label>{label}</Label>}
+      {description && <Description>{description}</Description>}
       <AriaInput
         ref={inputRef}
-        className="react-aria-Input inset"
+        className="input input--text"
         placeholder={placeholder}
       />
-      {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>
   );
@@ -53,14 +57,18 @@ export function Textarea({
   ...props
 }: TextFieldProps<HTMLTextAreaElement>) {
   return (
-    <AriaTextField {...props} isRequired={required}>
+    <AriaTextField
+      {...props}
+      isRequired={required}
+      className="field field--textarea"
+    >
       <Label>{label}</Label>
+      {description && <Description>{description}</Description>}
       <AriaTextArea
         ref={inputRef}
-        className="react-aria-TextArea inset"
+        className="input input--textarea"
         placeholder={placeholder}
       />
-      {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>
   );

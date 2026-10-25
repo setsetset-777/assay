@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { Route } from "@/routes/form/$formId/step.$stepId";
 
-import "./step.scss";
+import "./Step.scss";
 
 export function Step() {
   const { steps, step, stepIndex, formId } = Route.useLoaderData();

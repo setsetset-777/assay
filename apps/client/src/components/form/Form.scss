@@ -1,0 +1,22 @@
+@use "@/styles/utilities" as *;
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.label {
+  font-size: var(--font-size-m);
+  font-weight: var(--font-weight-semi);
+}
+
+.field-error {
+  font-size: var(--font-size-s);
+  color: var(--color-font-critical);
+}
+
+.description {
+  font-size: var(--font-size-m);
+  color: var(--color-font-dimmed);
+}

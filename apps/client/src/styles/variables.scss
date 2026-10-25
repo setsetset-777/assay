@@ -7,6 +7,7 @@
   --color-red-100: #fff8f8;
   --color-red-300: #ffb2b2;
   --color-red-500: #d40000;
+  --color-red-500-a50: #d4000050;
 
   /* blue */
   --color-blue-300: #aab6ff;
@@ -53,7 +54,8 @@
   /* font weight */
   --font-weight-bold: 700;
   --font-weight-regular: 400;
-  --font-weight-semi: 500;
+  --font-weight-medium: 500;
+  --font-weight-semi: 600;
 
   /* line height */
   --font-height-m: 1.3;
@@ -74,6 +76,7 @@
 
   /* === Radius Tokens === */
 
+  --radius-4: #{pxToRem(4)};
   --radius-8: #{pxToRem(8)};
   --radius-12: #{pxToRem(12)};
 
@@ -90,6 +93,8 @@
   --elevation-00: var(--color-gray-1000-a05) 0 0 #{pxToRem(4)};
   --elevation-50: var(--color-gray-1000-a50) 0 #{pxToRem(2)} #{pxToRem(12)};
   --elevation-focus-50: var(--color-blue-500-a50) 0 #{pxToRem(2)} #{pxToRem(12)};
+  --elevation-critical-50: var(--color-red-500-a50) 0 #{pxToRem(2)}
+    #{pxToRem(12)};
 
   /* === Semantic Colors === */
 
@@ -97,7 +102,7 @@
   --color-font-main: var(--color-gray-1000);
   --color-font-light: var(--color-gray-00);
   --color-font-dimmed: var(--color-gray-600);
-  --color-font-placeholder: var(--color-gray-300);
+  --color-font-placeholder: var(--color-gray-400);
   --color-font-critical: var(--color-red-500);
 
   --color-font-accent: var(--color-accent-500);
@@ -114,6 +119,7 @@
 
   --color-border-dimmed: var(--color-gray-200);
   --color-border-critical: var(--color-red-300);
+  --color-border-critical-active: var(--color-red-500);
   --color-border-focus: var(--color-blue-300);
 
   /* === Semantic variables === */
