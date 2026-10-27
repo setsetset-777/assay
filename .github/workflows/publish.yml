@@ -1,0 +1,24 @@
+name: Create and publish a Docker image
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+  workflow_dispatch:
+
+permissions:
+  attestations: write
+  packages: write
+  id-token: write
+  contents: read
+
+jobs:
+  publish-server:
+    name: Publish server
+    uses: setsetset-777/toolbox/.github/workflows/docker-publish.yml@main
+    with:
+      image_name: ${{ github.repository }}-server
+      registry: ghcr.io
+      context: .
+      dockerfile: apps/server/Dockerfile
