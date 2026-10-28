@@ -8,7 +8,8 @@
     "compose:up": "pnpm compose:dev up --build",
     "compose:down": "compose:dev down",
     "dev": "pnpm -r --parallel dev",
-    "test": "pnpm -r --parallel test"
+    "test": "pnpm -r --parallel test",
+    "check": "pnpm -r --parallel check"
   },
   "keywords": [],
   "author": "",

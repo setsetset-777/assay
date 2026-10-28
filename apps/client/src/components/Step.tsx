@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { type FormValues } from "@/schemas/form";
+import { type FormValues, type Step } from "@/schemas/form";
 import { FieldRenderer, Form } from "@/components/form";
 import { Button } from "@/components/Button";
 import {
@@ -42,12 +42,12 @@ export function Step() {
   const onNext = async () => {
     if (isLast) return;
     const valid = await trigger(names);
-    if (valid) {
+    if (valid && nextStepId) {
       goTo(nextStepId);
     }
   };
 
-  const onSave: SubmitHandler<FormValues> = async (data) => {
+  const onSave: SubmitHandler<FormValues> = async () => {
     // TODO persist data on storage
     if (!isLast) return;
     // Success
@@ -88,7 +88,7 @@ export function Step() {
               className="step__button"
               type="button"
               variant="secondary"
-              onClick={() => goTo(previousStepId)}
+              onClick={() => previousStepId && goTo(previousStepId)}
             >
               {setpI18n?.previous ?? "Précédent"}
             </Button>

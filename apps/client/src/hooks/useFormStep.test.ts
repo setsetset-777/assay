@@ -1,5 +1,4 @@
-import { expect, test, describe } from "vitest";
-import { useFormStep } from "./useFormStep.js";
+import { test, describe } from "vitest";
 
 describe("useFormStep", () => {
   test("adds 1 + 2 to equal 3", () => {});

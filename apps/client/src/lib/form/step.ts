@@ -35,12 +35,12 @@ export function deriveFromStepId<T extends StepLike[]>({
   steps: T;
   stepId: string | undefined;
 }) {
-  const stepIndex = resolveStepIndex({
+  const stepIndex = resolveStepIndex<T>({
     steps,
     stepId,
     isSuccess,
   });
-  const step = steps[stepIndex];
+  const step = steps[stepIndex] as T[0];
   const totalSteps = steps.length;
   const isFirst = stepIndex === 0;
   const isLast = !isSuccess && stepIndex >= steps.length - 1;
