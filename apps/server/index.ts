@@ -48,7 +48,7 @@ app.get("/robots.txt", (req, res) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 // SPA fallback: send index.html for any non-API route (React Router)
-app.get("*", (req, res) => {
+app.get("/{*foo}", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
