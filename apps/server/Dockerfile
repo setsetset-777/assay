@@ -30,4 +30,4 @@ COPY --from=build /prod/server ./
 COPY --from=build /repo/apps/client/dist ./public
 USER node
 EXPOSE 3000
-CMD ["tsx", "index.ts"]
+CMD ["node", "dist/index.js"]
