@@ -17,7 +17,7 @@ COPY apps/client apps/client
 COPY apps/server apps/server
 
 RUN pnpm --filter ./apps/client build
-# RUN pnpm --filter ./apps/server build    # only if the server needs compiling (TypeScript)
+RUN pnpm --filter ./apps/server build
 
 # Self-contained server with prod deps only
 RUN pnpm deploy --filter ./apps/server --prod /prod/server
