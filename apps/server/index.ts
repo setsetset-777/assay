@@ -7,7 +7,8 @@ import url from "url";
 const port = process.env.SERVER_PORT ?? 3000;
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataDir = "./data/forms";
+const dataDir =
+  process.env.NODE_ENV === "production" ? "../data" : "../../data";
 
 interface Form {
   id: string;
@@ -26,7 +27,13 @@ const app = express();
  */
 app.get("/api/form/:id", (req, res) => {
   try {
-    const filePath = path.resolve(__dirname, dataDir, `${req.params.id}.yml`);
+    const filePath = path.resolve(
+      __dirname,
+      dataDir,
+      "forms",
+      `${req.params.id}.yml`,
+    );
+
     const fileData = fs.readFileSync(filePath, "utf8");
     const fileYaml = yaml.parse(fileData) as FormData;
     res.json(fileYaml.form);

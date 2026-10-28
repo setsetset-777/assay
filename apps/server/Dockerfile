@@ -28,6 +28,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /prod/server ./
 COPY --from=build /repo/apps/client/dist ./dist/public
+COPY data ./data
 USER node
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
