@@ -10,6 +10,7 @@ import {
 
 import "./Step.scss";
 import { useFormStep } from "@/hooks/useFormStep";
+import { postSuccess } from "@/api";
 
 export function Step() {
   const {
@@ -47,11 +48,19 @@ export function Step() {
     }
   };
 
-  const onSave: SubmitHandler<FormValues> = async () => {
-    // TODO persist data on storage
+  const onSave: SubmitHandler<FormValues> = async (data) => {
     if (!isLast) return;
     // Success
-    goTo("success");
+    try {
+      await postSuccess({
+        formId,
+        data,
+      });
+      goTo("success");
+    } catch (e) {
+      console.error(e);
+      // TODO Error feedback ot user
+    }
   };
 
   const onInvalid: SubmitErrorHandler<FormValues> = (errors) => {

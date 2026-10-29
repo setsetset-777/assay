@@ -1,8 +1,9 @@
-import express from "express";
+import express, { type ErrorRequestHandler } from "express";
 import fs from "fs";
 import yaml from "yaml";
 import path from "path";
 import url from "url";
+import { HttpError } from "./lib/HttpError";
 
 const port = process.env.SERVER_PORT ?? 3000;
 const __filename = url.fileURLToPath(import.meta.url);
@@ -21,6 +22,8 @@ interface FormData {
 }
 
 const app = express();
+
+app.use(express.json());
 
 /**
  * API
@@ -42,6 +45,23 @@ app.get("/api/form/:id", (req, res) => {
   }
 });
 
+app.post("/api/form/success", (req, res) => {
+  const { formId, data } = req.body ?? {};
+
+  // TODO Validate data with schema
+  // if (!schema(data)) {
+  //   throw new HttpError(400, "Missing fields");
+  // }
+
+  try {
+    // TODO send email
+  } catch (e) {
+    throw new HttpError(502, "Could not send message, please try again later");
+  }
+
+  res.status(201).json({ ok: true });
+});
+
 /**
  * Web server
  */
@@ -58,6 +78,27 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/{*foo}", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+/**
+ * Error handling
+ */
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  if (err instanceof HttpError) {
+    return res
+      .status(err.status)
+      .json({ error: err.message, details: err.details });
+  }
+
+  // Malformed JSON body from express.json()
+  if (err.type === "entity.parse.failed") {
+    return res.status(400).json({ error: "Invalid JSON" });
+  }
+
+  console.error(err);
+  res.status(500).json({ error: "Internal server error" });
+};
+
+app.use(errorHandler);
 
 /**
  * Start server
