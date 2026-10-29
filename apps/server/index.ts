@@ -3,8 +3,8 @@ import fs from "fs";
 import yaml from "yaml";
 import path from "path";
 import url from "url";
-import { HttpError } from "./lib/HttpError";
-import { mail } from "./lib/mail";
+import { HttpError } from "./lib/HttpError.js";
+import { mail } from "./lib/mail.js";
 
 const port = process.env.SERVER_PORT ?? 3000;
 const __filename = url.fileURLToPath(import.meta.url);
