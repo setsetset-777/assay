@@ -4,6 +4,7 @@ import yaml from "yaml";
 import path from "path";
 import url from "url";
 import { HttpError } from "./lib/HttpError";
+import { mail } from "./lib/mail";
 
 const port = process.env.SERVER_PORT ?? 3000;
 const __filename = url.fileURLToPath(import.meta.url);
@@ -55,11 +56,25 @@ app.post("/api/form/success", (req, res) => {
 
   try {
     // TODO send email
+
+    const from = "noreply@setsetset.net";
+    const to = process.env.ADMIN_EMAIL;
+    const subject = "You got mail!";
+
+    const params = {
+      from,
+      subject,
+      to,
+      text: JSON.stringify(data),
+    };
+
+    mail(params);
+
+    res.status(201).json({ ok: true });
   } catch (e) {
+    console.error(e);
     throw new HttpError(502, "Could not send message, please try again later");
   }
-
-  res.status(201).json({ ok: true });
 });
 
 /**
