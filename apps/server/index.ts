@@ -57,8 +57,8 @@ app.post("/api/form/success", (req, res) => {
   try {
     // TODO send email
 
-    const from = "noreply@setsetset.net";
-    const to = process.env.ADMIN_EMAIL;
+    const from = "loic@setsetset.net";
+    const to = "loic.hamet@gmail.com";
     const subject = "You got mail!";
 
     const params = {

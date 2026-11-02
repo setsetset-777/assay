@@ -48,7 +48,8 @@ export const mail = async ({
 
   try {
     const params = {
-      from,
+      from: process.env.FROM_EMAIL,
+      replyTo: from,
       to,
       subject,
       text,
